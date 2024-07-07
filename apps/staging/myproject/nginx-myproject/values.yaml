@@ -1,0 +1,8 @@
+image:
+  registry: docker.io
+  repository: bitnami/nginx
+  pullPolicy: Always
+replicaCount: 1
+
+service:
+  type: ClusterIP

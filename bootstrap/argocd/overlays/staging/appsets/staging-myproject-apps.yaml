@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: staging-myproject-apps
+  namespace: argocd
+spec:
+  syncPolicy:
+    preserveResourcesOnDeletion: true
+  goTemplate: true
+  generators:
+    - matrix:
+        generators:
+          - git:
+              repoURL: "https://github.com/meziaris/K8S-MANIFEST.git"
+              revision: HEAD
+              files:
+                - path: "apps/staging/myproject/**/.RELEASE.yaml"
+          - git:
+              repoURL: "https://github.com/meziaris/K8S-MANIFEST.git"
+              revision: HEAD
+              files:
+                - path: "apps/staging/myproject/runtime.yaml"
+  template:
+    metadata:
+      name: "{{ .prefix }}-{{ lower (index .path.segments (add (len .path.segments) -1)) }}"
+      namespace: argocd
+    spec:
+      project: "myproject"
+      source:
+        repoURL: https://github.com/meziaris/K8S-MANIFEST.git
+        targetRevision: HEAD
+        path: "{{ .path.path }}"
+      destination:
+        name: '{{ .destination.name }}'
+        namespace: '{{ lower (index .path.segments (add (len .path.segments) -1)) }}-ns'
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+          - ApplyOutOfSync=true
+          - RespectIgnoreDifferences=true
+      ignoreDifferences:
+        - group: apps
+          kind: Deployment
+          jsonPointers:
+            - /spec/template/metadata/annotations/kubectl.kubernetes.io~1restartedAt

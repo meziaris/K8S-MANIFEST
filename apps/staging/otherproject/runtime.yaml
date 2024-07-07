@@ -1,0 +1,3 @@
+prefix: "staging-otherproject"
+destination:
+  name: in-cluster

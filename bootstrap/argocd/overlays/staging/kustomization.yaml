@@ -1,0 +1,20 @@
+namespace: argocd
+
+resources:
+  # - github.com:argoproj/argo-cd//manifests/ha/cluster-install?ref=v2.9.18 #use this for HA
+  - github.com:argoproj/argo-cd//manifests/cluster-install?ref=v2.9.18
+
+  - ../../base
+
+  - appprojects/myproject.yaml
+  - appprojects/otherproject.yaml
+  - appsets/staging-myproject-apps.yaml
+  - appsets/staging-otherproject-apps.yaml
+  - applications/cluster-components.yaml
+
+components:
+  - ../../components/kustomize-enable-plugin-and-helm
+
+patches:
+  - path: patches/argocd-cm.yaml
+  - path: patches/argocd-rbac-cm.yaml

@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: otherproject
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+    # Specify which cluster-scoped resources are allowed to be managed by this project
+    - group: '*'
+      kind: '*'
+  destinations:
+    # Specify which namespaces and clusters are allowed destinations for applications in this project
+    - namespace: '*'
+      server: '*'
+  sourceRepos:
+    # Specify which Git repositories are allowed to be used for application source in this project
+    - '*'

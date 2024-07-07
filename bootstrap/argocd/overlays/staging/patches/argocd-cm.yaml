@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app.kubernetes.io/name: argocd-cm
+    app.kubernetes.io/part-of: argocd
+  name: argocd-cm
+data:
+  url: https://localhost:8080
+  accounts.admin: apiKey
+  admin.enabled: "true"
+  dex.config: |
+    connectors:
+    - type: oidc
+      id: google
+      name: Google
+      config:
+        issuer: https://accounts.google.com
+        clientID: $oidc.clientID
+        clientSecret: $oidc.clientSecret

@@ -1,0 +1,8 @@
+metricLabelsAllowlist:
+  - 'namespaces=[*]'
+  - 'deployments=[*]'
+  - 'statefulsets=[*]'
+  - 'cronjobs=[*]'
+  - 'jobs=[*]'
+  - 'services=[*]'
+  - 'pods=[*]'

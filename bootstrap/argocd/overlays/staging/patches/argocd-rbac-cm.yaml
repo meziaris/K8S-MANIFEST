@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  policy.csv: |
+    p, role:myproject-admins, applications, *, myproject/*, allow
+    p, role:otherproject-admins, applications, *, otherproject/*, allow
+
+    g, useremail@domain.com, role:myproject-admins
+    g, otheruser@domain.com, role:otherproject-admins
+  scopes: '[cognito:groups, email]'
+kind: ConfigMap
+metadata:
+  name: argocd-rbac-cm
